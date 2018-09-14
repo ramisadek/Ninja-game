@@ -43,15 +43,15 @@ public class AiEngine : MonoBehaviour
         // just checking if the target has entered the lookRadius
         if (Vector3.Distance(target.position, transform.position) <= lookRadius)
         {
-            // GameOver();
+            Debug.Log("Game Oveeeer!");
+            GameOver();
         }
     }
-
-    // TODO : implement GameOver Method
+    
     // called if the target detected
     private void GameOver()
     {
-
+        FindObjectOfType<GameManager>().gameOver();
     }
 
     // just to show tha lookradius (detection raduis) when gizmos is selected
