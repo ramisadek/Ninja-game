@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CharacterEngine : MonoBehaviour
 {
-
+    [SerializeField] Animator animator;
     public float speed = 1;
     Vector2 target;
+    public bool InBush=true;
 
     private void Start()
     {
         target = transform.position;
+        InBush = true;
     }
     void FixedUpdate()
     {
@@ -40,19 +42,34 @@ public class CharacterEngine : MonoBehaviour
  
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.tag == "LeftBush")
         {
+            InBush = true;
             Vector3 Scale = transform.localScale;
             Scale.x = -1;
             transform.localScale = Scale;
+            animator.SetFloat("Speed", -1);
         }
         if (collision.tag == "bushes")
         {
+            InBush = true;
             Vector3 Scale = transform.localScale;
             Scale.x = 1;
             transform.localScale = Scale;
+            animator.SetFloat("Speed", -1);
         }
         // not imp TODO: if the player want to go backward the eyes must be in the direction...
         // ..of the bush as from bush RIght bush 2 to RIght bush 1
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "LeftBush" || collision.tag == "bushes")
+        {
+            InBush = false;
+            animator.SetFloat("Speed", 1);
+        }
+            
     }
 }

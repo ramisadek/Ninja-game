@@ -12,6 +12,7 @@ public class AiEngine : MonoBehaviour
     // The target we want to detect if entered the lookRadius
     // TODO: there is another way to assign the target other than having to assign it with unity - will check it later
     [SerializeField] Transform target;
+    public CharacterEngine eng;
 
 
     [Range(0, 1)] [SerializeField] float MovmentFactor;
@@ -21,7 +22,7 @@ public class AiEngine : MonoBehaviour
     void Start()
     {
         startingPos = transform.position;
-
+        eng = FindObjectOfType(typeof(CharacterEngine)) as CharacterEngine;
     }
 
     // Update is called once per frame
@@ -43,8 +44,12 @@ public class AiEngine : MonoBehaviour
         // just checking if the target has entered the lookRadius
         if (Vector3.Distance(target.position, transform.position) <= lookRadius)
         {
-            Debug.Log("Game Oveeeer!");
-            GameOver();
+            if(eng.InBush==false)
+            {
+                Debug.Log("Game Oveeeer!");
+                GameOver();
+            }
+            
         }
     }
     
@@ -58,6 +63,6 @@ public class AiEngine : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, lookRadius);
+        Gizmos.DrawWireSphere(transform.position, lookRadius);
     }
 }
